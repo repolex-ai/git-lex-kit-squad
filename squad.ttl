@@ -18,14 +18,40 @@
 # Document types (= valid `git lex create` commands):
 #   agent, message, decision, discovery, task, project, note
 #
-# Property types are declared by owl:DatatypeProperty / owl:ObjectProperty.
-# SHACL shapes validate and document each field.
+# All constraints (required fields, enums, types) are encoded here.
+# SHACL shapes are generated from this file — do not hand-edit shapes.
 # =============================================================================
 
 <https://repolex.ai/ontology/kit/team> a owl:Ontology ;
     rdfs:label "Squad Kit Ontology" ;
     rdfs:comment "Multi-agent squad memory. Carbon and silicon agents collaborate via structured markdown in a shared git repo." ;
-    owl:versionInfo "0.2" .
+    owl:versionInfo "0.3" .
+
+
+# =============================================================================
+# ENUM DATATYPES
+# =============================================================================
+
+squad:SubstrateValue a rdfs:Datatype ;
+    owl:oneOf ("carbon" "silicon") .
+
+squad:MessageStatusValue a rdfs:Datatype ;
+    owl:oneOf ("open" "resolved" "acknowledged") .
+
+squad:PriorityValue a rdfs:Datatype ;
+    owl:oneOf ("low" "normal" "high" "urgent") .
+
+squad:OutcomeValue a rdfs:Datatype ;
+    owl:oneOf ("pending" "implemented" "reverted" "superseded") .
+
+squad:ConfidenceValue a rdfs:Datatype ;
+    owl:oneOf ("certain" "likely" "hypothesis" "hunch") .
+
+squad:TaskStatusValue a rdfs:Datatype ;
+    owl:oneOf ("todo" "in-progress" "blocked" "done" "cancelled") .
+
+squad:ProjectStatusValue a rdfs:Datatype ;
+    owl:oneOf ("planning" "active" "paused" "shipped" "archived") .
 
 
 # =============================================================================
@@ -40,13 +66,23 @@
 squad:Agent a owl:Class ;
     rdfs:subClassOf lex-o:Physical ;
     rdfs:label "Agent" ;
-    rdfs:comment "A squad member — carbon or silicon. Identity tied to git author email." .
+    rdfs:comment "A squad member — carbon or silicon. Identity tied to git author email." ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:role ;
+        owl:minCardinality 1
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:agentEmail ;
+        owl:minCardinality 1
+    ] .
 
 squad:substrate a owl:DatatypeProperty ;
     rdfs:label "substrate" ;
     rdfs:comment "What the agent runs on: 'carbon' (human) or 'silicon' (AI)." ;
     rdfs:domain squad:Agent ;
-    rdfs:range xsd:string .
+    rdfs:range squad:SubstrateValue .
 
 squad:role a owl:DatatypeProperty ;
     rdfs:label "role" ;
@@ -79,7 +115,17 @@ squad:worksOn a owl:ObjectProperty ;
 squad:Message a owl:Class ;
     rdfs:subClassOf lex-o:Information ;
     rdfs:label "Message" ;
-    rdfs:comment "A message from one agent to another. Persistent inter-agent communication." .
+    rdfs:comment "A message from one agent to another. Persistent inter-agent communication." ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:from ;
+        owl:minCardinality 1
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:to ;
+        owl:minCardinality 1
+    ] .
 
 squad:from a owl:ObjectProperty ;
     rdfs:label "from" ;
@@ -97,13 +143,13 @@ squad:messageStatus a owl:DatatypeProperty ;
     rdfs:label "message status" ;
     rdfs:comment "Message status: 'open', 'resolved', 'acknowledged'." ;
     rdfs:domain squad:Message ;
-    rdfs:range xsd:string .
+    rdfs:range squad:MessageStatusValue .
 
 squad:priority a owl:DatatypeProperty ;
     rdfs:label "priority" ;
     rdfs:comment "Message priority: 'low', 'normal', 'high', 'urgent'." ;
     rdfs:domain squad:Message ;
-    rdfs:range xsd:string .
+    rdfs:range squad:PriorityValue .
 
 squad:regarding a owl:ObjectProperty ;
     rdfs:label "regarding" ;
@@ -123,7 +169,12 @@ squad:inReplyTo a owl:ObjectProperty ;
 squad:Decision a owl:Class ;
     rdfs:subClassOf lex-o:Decision ;
     rdfs:label "Decision" ;
-    rdfs:comment "A recorded choice with context, rationale, and outcome." .
+    rdfs:comment "A recorded choice with context, rationale, and outcome." ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:decidedBy ;
+        owl:minCardinality 1
+    ] .
 
 squad:decidedBy a owl:ObjectProperty ;
     rdfs:label "decided by" ;
@@ -147,7 +198,7 @@ squad:outcome a owl:DatatypeProperty ;
     rdfs:label "outcome" ;
     rdfs:comment "What happened as a result: 'pending', 'implemented', 'reverted', 'superseded'." ;
     rdfs:domain squad:Decision ;
-    rdfs:range xsd:string .
+    rdfs:range squad:OutcomeValue .
 
 squad:supersededBy a owl:ObjectProperty ;
     rdfs:label "superseded by" ;
@@ -180,7 +231,7 @@ squad:confidence a owl:DatatypeProperty ;
     rdfs:label "confidence" ;
     rdfs:comment "How confident: 'certain', 'likely', 'hypothesis', 'hunch'." ;
     rdfs:domain squad:Discovery ;
-    rdfs:range xsd:string .
+    rdfs:range squad:ConfidenceValue .
 
 # --- Task ---
 # A work item. Assigned, tracked, blocked/blocking.
@@ -188,7 +239,12 @@ squad:confidence a owl:DatatypeProperty ;
 squad:Task a owl:Class ;
     rdfs:subClassOf lex-o:Process ;
     rdfs:label "Task" ;
-    rdfs:comment "A work item with assignment and status tracking." .
+    rdfs:comment "A work item with assignment and status tracking." ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:taskStatus ;
+        owl:minCardinality 1
+    ] .
 
 squad:assignedTo a owl:ObjectProperty ;
     rdfs:label "assigned to" ;
@@ -200,7 +256,7 @@ squad:taskStatus a owl:DatatypeProperty ;
     rdfs:label "task status" ;
     rdfs:comment "Task status: 'todo', 'in-progress', 'blocked', 'done', 'cancelled'." ;
     rdfs:domain squad:Task ;
-    rdfs:range xsd:string .
+    rdfs:range squad:TaskStatusValue .
 
 squad:blocks a owl:ObjectProperty ;
     rdfs:label "blocks" ;
@@ -238,7 +294,7 @@ squad:projectStatus a owl:DatatypeProperty ;
     rdfs:label "project status" ;
     rdfs:comment "Project status: 'planning', 'active', 'paused', 'shipped', 'archived'." ;
     rdfs:domain squad:Project ;
-    rdfs:range xsd:string .
+    rdfs:range squad:ProjectStatusValue .
 
 squad:squadMembers a owl:ObjectProperty ;
     rdfs:label "squad members" ;
