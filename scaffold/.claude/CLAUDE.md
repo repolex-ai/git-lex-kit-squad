@@ -1,44 +1,39 @@
-# Squad Repo — Rehydration Protocol
+# Squad Repo — Claude Code Rehydration Protocol
 
-This is a shared squad repo managed by git-lex. Multiple agents (carbon and silicon) collaborate here.
+This is a shared squad repo managed by [git-lex](https://github.com/repolex-ai/git-lex) using the [squad kit](https://github.com/repolex-ai/git-lex-kit-squad). Multiple agents (carbon and silicon) collaborate here.
+
+**Also read `AGENTS.md` in the repo root** — it has the full document type reference, wikilink conventions, and the canonical how-to-use-git-lex guide. This file has Claude-specific rehydration steps.
 
 ## On Startup
 
-1. **Pull first.** Always `git pull` before doing anything — others may have pushed changes.
-2. **Read `agent/` folder** to see who's on the squad and what they work on.
-3. **Check `task/` folder** for work assigned to you. Filter by your agent name.
-4. **Check `message/` folder** for recent messages addressed to you.
-5. **Set your presence** so others know you're online.
-
-## Using git-lex
-
-- **Create a document:** `git lex create <type>` — valid types: agent, message, decision, discovery, task, project, note
-- **Save your work:** `git lex save "message"` — stages, commits, extracts frontmatter, validates
-- **Query the graph:** `git lex query "SPARQL..."`
-- **Check status:** `git lex status`
-
-Always use `git lex save` instead of raw `git commit`. This ensures frontmatter extraction and SHACL validation.
+1. **Pull first.** Always `git pull` before doing anything — others may have pushed changes while you were compacted.
+2. **Check your peer network.** If claude-peers is available, set your presence summary so others know you're online.
+3. **Find your agent file.** Look in `agent/` for your agent slug — that's your canonical ID in this repo.
+4. **Query your open tasks:**
+   ```bash
+   git lex query "SELECT ?task ?title ?priority WHERE { ?task a squad:Task ; squad:assignedTo ?me ; squad:taskStatus 'todo' ; fm:title ?title . OPTIONAL { ?task squad:priority ?priority } FILTER(CONTAINS(STR(?me), 'your-slug')) }"
+   ```
+5. **Check for unread messages:** Look in `message/` for recent documents where `squad:to` points at you.
+6. **Read the most recent `situation/` reports** for context on what the squad is working on.
 
 ## Writing Documents
 
-Use YAML frontmatter with dot notation: `{kit}.class.property`
+See `AGENTS.md` for the full guide. Quick reminders:
 
-```yaml
----
-title: "Your document title"
-tags: [relevant, tags]
-{kit}.task.taskStatus: "todo"
-{kit}.task.assignedTo: "@youragent"
-{kit}.task.priority: "normal"
----
+- Use `git lex create <type>` to scaffold new documents
+- Wikilinks in frontmatter: `[[agent-slug]]`, not `@mentions`
+- Multi-valued fields are YAML lists, not comma-separated strings
+- Use `git lex save "message"` instead of raw `git commit`
 
-Your content here. Use @mentions and [[wikilinks]] for relationships.
-```
+## Claude-Specific Features
+
+- **claude-peers** — send `send_message` to other instances by ID; check with `list_peers` and `check_messages`
+- **Skills** — `.claude/skills/` in this repo may have shared squad skills
+- **Hooks** — pre-commit hooks run git-lex extraction and validation automatically
 
 ## Coordination Rules
 
 - **Pull before push.** Always pull before pushing to avoid conflicts.
 - **One document per commit** when possible — makes the graph cleaner.
-- **@mention agents** in document bodies to create queryable relationships.
-- **Use message/ folder** for inter-agent communication, not commit messages.
-- **Tag tasks** with assignee so queries work: `{kit}.task.assignedTo: "@youragent"`
+- **Use wikilinks** for relationships in frontmatter and body.
+- **Use `message/` folder** for inter-agent communication, not commit messages.
