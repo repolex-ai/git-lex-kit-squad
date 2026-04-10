@@ -152,6 +152,12 @@ squad:Message a owl:Class ;
         owl:minCardinality 1
     ] .
 
+squad:messageId a owl:DatatypeProperty ;
+    rdfs:label "messageId" ;
+    rdfs:comment "Unique identifier for this message." ;
+    rdfs:domain squad:Message ;
+    rdfs:range xsd:string .
+
 squad:from a owl:ObjectProperty ;
     rdfs:label "from" ;
     rdfs:comment "The agent who sent this message." ;
@@ -189,6 +195,12 @@ squad:Decision a owl:Class ;
         owl:onProperty squad:decidedBy ;
         owl:minCardinality 1
     ] .
+
+squad:decisionId a owl:DatatypeProperty ;
+    rdfs:label "decisionId" ;
+    rdfs:comment "Unique identifier for this decision." ;
+    rdfs:domain squad:Decision ;
+    rdfs:range xsd:string .
 
 squad:decidedBy a owl:ObjectProperty ;
     rdfs:label "decided by" ;
@@ -230,6 +242,12 @@ squad:Discovery a owl:Class ;
     rdfs:label "Discovery" ;
     rdfs:comment "An incidental finding, insight, or gotcha noticed while doing other work. Not the result of deliberate research — that's Brief. Not a formal experiment result — that's the lab kit." .
 
+squad:discoveryId a owl:DatatypeProperty ;
+    rdfs:label "discoveryId" ;
+    rdfs:comment "Unique identifier for this discovery." ;
+    rdfs:domain squad:Discovery ;
+    rdfs:range xsd:string .
+
 squad:foundBy a owl:ObjectProperty ;
     rdfs:label "found by" ;
     rdfs:comment "The agent who made this discovery." ;
@@ -257,6 +275,12 @@ squad:Brief a owl:Class ;
     rdfs:subClassOf lex-o:Information ;
     rdfs:label "Brief" ;
     rdfs:comment "A proactive research document — ecosystem surveys, competitive analyses, state-of-the-world reports. Lighter than formal lab research. Authored to inform the squad so they can act." .
+
+squad:briefId a owl:DatatypeProperty ;
+    rdfs:label "briefId" ;
+    rdfs:comment "Unique identifier for this brief." ;
+    rdfs:domain squad:Brief ;
+    rdfs:range xsd:string .
 
 squad:briefStatus a owl:DatatypeProperty ;
     rdfs:label "brief status" ;
@@ -294,6 +318,12 @@ squad:Task a owl:Class ;
         owl:onProperty squad:taskStatus ;
         owl:minCardinality 1
     ] .
+
+squad:taskId a owl:DatatypeProperty ;
+    rdfs:label "taskId" ;
+    rdfs:comment "Unique identifier for this task." ;
+    rdfs:domain squad:Task ;
+    rdfs:range xsd:string .
 
 squad:assignedTo a owl:ObjectProperty ;
     rdfs:label "assigned to" ;
@@ -333,6 +363,12 @@ squad:Project a owl:Class ;
     rdfs:label "Project" ;
     rdfs:comment "A project the squad is working on." .
 
+squad:projectId a owl:DatatypeProperty ;
+    rdfs:label "projectId" ;
+    rdfs:comment "Unique identifier for this project." ;
+    rdfs:domain squad:Project ;
+    rdfs:range xsd:string .
+
 squad:repo a owl:DatatypeProperty ;
     rdfs:label "repo" ;
     rdfs:comment "GitHub repository URL or org/repo identifier." ;
@@ -359,6 +395,12 @@ squad:Pod a owl:Class ;
     rdfs:subClassOf lex-o:Concept ;
     rdfs:label "Pod" ;
     rdfs:comment "A temporary working group within the squad focused on a specific project or set of tasks. Forms, does the work, disbands." .
+
+squad:podId a owl:DatatypeProperty ;
+    rdfs:label "podId" ;
+    rdfs:comment "Unique identifier for this pod." ;
+    rdfs:domain squad:Pod ;
+    rdfs:range xsd:string .
 
 squad:podStatus a owl:DatatypeProperty ;
     rdfs:label "pod status" ;
@@ -398,6 +440,12 @@ squad:Proclamation a owl:Class ;
         owl:minCardinality 1
     ] .
 
+squad:proclamationId a owl:DatatypeProperty ;
+    rdfs:label "proclamationId" ;
+    rdfs:comment "Unique identifier for this proclamation." ;
+    rdfs:domain squad:Proclamation ;
+    rdfs:range xsd:string .
+
 squad:proclaimedBy a owl:ObjectProperty ;
     rdfs:label "proclaimed by" ;
     rdfs:comment "The agent who issued the proclamation. Traditionally the King of the Squad." ;
@@ -413,6 +461,12 @@ squad:Situation a owl:Class ;
     rdfs:subClassOf lex-o:Information ;
     rdfs:label "Situation" ;
     rdfs:comment "A situation report. Current state of work, what's next, what's blocking. Links agents, projects, tasks, and briefs into a coherent snapshot." .
+
+squad:situationId a owl:DatatypeProperty ;
+    rdfs:label "situationId" ;
+    rdfs:comment "Unique identifier for this situation." ;
+    rdfs:domain squad:Situation ;
+    rdfs:range xsd:string .
 
 squad:situationAuthor a owl:ObjectProperty ;
     rdfs:label "situation author" ;
@@ -450,6 +504,12 @@ squad:Freeform a owl:Class ;
     rdfs:subClassOf lex-o:Information ;
     rdfs:label "Freeform" ;
     rdfs:comment "The catch-all. For thoughts, fragments, and documents that don't fit other types. Any shared ObjectProperty can be used in frontmatter. Set `type` to a short string to hint at what this document is — patterns in `type` become candidates for new classes." .
+
+squad:freeformId a owl:DatatypeProperty ;
+    rdfs:label "freeformId" ;
+    rdfs:comment "Unique identifier for this freeform." ;
+    rdfs:domain squad:Freeform ;
+    rdfs:range xsd:string .
 
 squad:type a owl:DatatypeProperty ;
     rdfs:label "type" ;
