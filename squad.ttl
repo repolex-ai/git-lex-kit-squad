@@ -16,7 +16,7 @@
 # Tags: Use fm:tags from frontmatter — no duplication.
 #
 # Document types (= valid `git lex create` commands):
-#   agent, brief, decision, digest, discovery, freeform, message,
+#   agent, brief, bug, decision, digest, discovery, freeform, message,
 #   pod, proclamation, project, situation, task
 #
 # Design notes:
@@ -516,6 +516,64 @@ squad:type a owl:DatatypeProperty ;
     rdfs:comment "A user-defined type hint for the document. Free-form string. Used to identify patterns that might become formal classes. Examples: 'retrospective', 'gripe', 'idea', 'question'." ;
     rdfs:domain squad:Freeform ;
     rdfs:range xsd:string .
+
+
+# --- Bug ---
+# A defect or issue found during testing or use. First-class tracking so
+# bugs are queryable, linkable to projects, and have their own lifecycle
+# independent of tasks. Created by TestyPod (QA) or any agent who notices
+# a problem.
+
+squad:BugStatusValue a rdfs:Datatype ;
+    owl:oneOf ("open" "confirmed" "fixed" "wontfix" "duplicate") .
+
+squad:BugSeverityValue a rdfs:Datatype ;
+    owl:oneOf ("critical" "major" "minor" "cosmetic") .
+
+squad:Bug a owl:Class ;
+    rdfs:subClassOf lex-o:Information ;
+    rdfs:label "Bug" ;
+    rdfs:comment "A defect or issue. Tracked with status and severity, linked to the project it affects. Created by any agent, typically triaged by TestyPod." ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:bugId ;
+        owl:minCardinality 1
+    ] ;
+    rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:onProperty squad:bugStatus ;
+        owl:minCardinality 1
+    ] .
+
+squad:bugId a owl:DatatypeProperty ;
+    rdfs:label "bugId" ;
+    rdfs:comment "Canonical identifier for this bug." ;
+    rdfs:domain squad:Bug ;
+    rdfs:range xsd:string .
+
+squad:reportedBy a owl:ObjectProperty ;
+    rdfs:label "reported by" ;
+    rdfs:comment "The agent who found and reported this bug." ;
+    rdfs:domain squad:Bug ;
+    rdfs:range squad:Squaddie .
+
+squad:bugStatus a owl:DatatypeProperty ;
+    rdfs:label "bug status" ;
+    rdfs:comment "Bug lifecycle: 'open', 'confirmed', 'fixed', 'wontfix', 'duplicate'." ;
+    rdfs:domain squad:Bug ;
+    rdfs:range squad:BugStatusValue .
+
+squad:bugSeverity a owl:DatatypeProperty ;
+    rdfs:label "bug severity" ;
+    rdfs:comment "How bad: 'critical', 'major', 'minor', 'cosmetic'." ;
+    rdfs:domain squad:Bug ;
+    rdfs:range squad:BugSeverityValue .
+
+squad:affectsProject a owl:ObjectProperty ;
+    rdfs:label "affects project" ;
+    rdfs:comment "The project this bug affects." ;
+    rdfs:domain squad:Bug ;
+    rdfs:range squad:Project .
 
 
 # =============================================================================
