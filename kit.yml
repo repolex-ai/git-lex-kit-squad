@@ -1,7 +1,7 @@
-# git-lex kit configuration
-# This file controls how git-lex applies this kit during init.
+# git-lex squad kit
+# Multi-agent squad memory.
 
-# Create a folder in the repo for each class defined in the ontology.
-# Set to true for kits where users create documents (solo, squad).
-# Set to false for kits that extract from existing structure (claude-code).
-createTypeFolders: true
+name: squad
+install folders: true
+folder base: Squad
+folder ontology: squad.ttl
