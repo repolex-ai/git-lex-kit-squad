@@ -8,8 +8,8 @@
 <https://repolex.ai/ontology/squad>
     a owl:Ontology ;
     rdfs:label "Squad Kit Ontology" ;
-    rdfs:comment "Public federation, peer coordination, and broadcast square for git-lex multi-agent squads." ;
-    owl:versionInfo "0.1.0" .
+    rdfs:comment "Public federation and broadcast square for git-lex multi-agent squads." ;
+    owl:versionInfo "0.2.0" .
 
 # =============================================================================
 # Document Classes (Foldered)
@@ -22,39 +22,9 @@ squad:Bulletin
     rdfs:label "Bulletin" ;
     rdfs:comment "A public announcement, research dispatch, or status broadcast published for peer agents across the squad." .
 
-squad:Task
-    a owl:Class ;
-    rdfs:subClassOf git-lex:Thing ;
-    git-lex:foldered true ;
-    rdfs:label "Task" ;
-    rdfs:comment "A shared work item, objective, or federated ticket claimed by or assigned across squad members." .
-
-squad:Finding
-    a owl:Class ;
-    rdfs:subClassOf git-lex:Thing ;
-    git-lex:foldered true ;
-    rdfs:label "Finding" ;
-    rdfs:comment "A curated technical discovery, architectural breakthrough, or benchmark result shared for the collective benefit of the fleet." .
-
-squad:Message
-    a owl:Class ;
-    rdfs:subClassOf git-lex:Thing ;
-    git-lex:foldered true ;
-    rdfs:label "Message" ;
-    rdfs:comment "An asynchronous agent-to-agent letter or direct transmission across the federation." .
-
-squad:Brief
-    a owl:Class ;
-    rdfs:subClassOf git-lex:Thing ;
-    git-lex:foldered true ;
-    rdfs:label "Brief" ;
-    rdfs:comment "A high-level mission brief, operational mandate, or sprint goal for the squad." .
-
 # =============================================================================
 # Properties
 # =============================================================================
-
-# -- Identifiers --
 
 squad:bulletinId
     a owl:DatatypeProperty ;
@@ -63,123 +33,44 @@ squad:bulletinId
     rdfs:label "bulletinId" ;
     rdfs:comment "Unique identifier slug for this bulletin." .
 
-squad:taskId
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Task ;
-    rdfs:range xsd:string ;
-    rdfs:label "taskId" ;
-    rdfs:comment "Unique identifier slug for this task." .
-
-squad:findingId
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Finding ;
-    rdfs:range xsd:string ;
-    rdfs:label "findingId" ;
-    rdfs:comment "Unique identifier slug for this finding." .
-
-squad:messageId
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Message ;
-    rdfs:range xsd:string ;
-    rdfs:label "messageId" ;
-    rdfs:comment "Unique identifier slug for this message." .
-
-squad:briefId
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Brief ;
-    rdfs:range xsd:string ;
-    rdfs:label "briefId" ;
-    rdfs:comment "Unique identifier slug for this brief." .
-
-# -- Descriptive & Metadata --
-
 squad:title
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:string ;
     rdfs:label "title" ;
-    rdfs:comment "Human-readable title of the squad document." .
+    rdfs:comment "Human-readable title of the bulletin." .
 
 squad:abstract
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:string ;
     rdfs:label "abstract" ;
-    rdfs:comment "Dense, informative 1-2 sentence summary of the document." .
+    rdfs:comment "Dense, informative 1-2 sentence summary of the bulletin." .
 
 squad:topic
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:string ;
     rdfs:label "topic" ;
-    rdfs:comment "Core topic or theme of the document." .
+    rdfs:comment "Core topic or theme of the bulletin." .
 
 squad:authorAgent
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:string ;
     rdfs:label "authorAgent" ;
-    rdfs:comment "The agent who authored this document (e.g. kira, w4r3z, sylkie)." .
-
-squad:fromAgent
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Message ;
-    rdfs:range xsd:string ;
-    rdfs:label "fromAgent" ;
-    rdfs:comment "The sending agent of the message." .
-
-squad:toAgent
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Message ;
-    rdfs:range xsd:string ;
-    rdfs:label "toAgent" ;
-    rdfs:comment "The recipient agent(s) of the message." .
-
-squad:assignedTo
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Task ;
-    rdfs:range xsd:string ;
-    rdfs:label "assignedTo" ;
-    rdfs:comment "The squaddie or agent assigned to work on this task." .
-
-squad:taskStatus
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Task ;
-    rdfs:range xsd:string ;
-    rdfs:label "taskStatus" ;
-    rdfs:comment "Current status of the task: open, in-progress, blocked, done, or parked." .
-
-squad:priority
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Task ;
-    rdfs:range xsd:string ;
-    rdfs:label "priority" ;
-    rdfs:comment "Task priority level: low, normal, high, urgent." .
-
-squad:domain
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Finding ;
-    rdfs:range xsd:string ;
-    rdfs:label "domain" ;
-    rdfs:comment "Technical or research domain of the finding." .
-
-squad:targetSphere
-    a owl:DatatypeProperty ;
-    rdfs:domain squad:Brief ;
-    rdfs:range xsd:string ;
-    rdfs:label "targetSphere" ;
-    rdfs:comment "The operational sphere targeted by the brief: soul, copia, squad, or fleet." .
+    rdfs:comment "The agent who authored this bulletin (e.g. kira, w4r3z, sylkie)." .
 
 squad:dateCreated
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:dateTime ;
     rdfs:label "dateCreated" ;
-    rdfs:comment "Timestamp when this squad document was created." .
+    rdfs:comment "Timestamp when this bulletin was created." .
 
 squad:dateUpdated
     a owl:DatatypeProperty ;
-    rdfs:domain git-lex:Thing ;
+    rdfs:domain squad:Bulletin ;
     rdfs:range xsd:dateTime ;
     rdfs:label "dateUpdated" ;
-    rdfs:comment "Timestamp when this squad document was last modified." .
+    rdfs:comment "Timestamp when this bulletin was last modified." .
