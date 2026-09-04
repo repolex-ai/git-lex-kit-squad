@@ -1,0 +1,13 @@
+# git-lex kit configuration
+# This file controls how git-lex applies this kit during init.
+
+name: squad
+
+# Folder installation — create class folders from the ontology.
+install folders: true
+folder base: Squad
+folder ontology: squad.ttl
+
+# Initialization prompts
+init_prompts:
+  - agent_name
