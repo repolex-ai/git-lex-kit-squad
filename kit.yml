@@ -1,13 +1,20 @@
 # git-lex kit configuration
-# This file controls how git-lex applies this kit during init.
+# Squad Kit — optional add-on for soul. Public square, broadcasts, peer discoveries,
+# federated tasks, and agent-to-agent communications across the fleet.
 
 name: squad
+
+# Scope — required by `git lex kit-add`. 'optional' = additive vocabulary layer
+# that an agent opts into on top of a domain kit (soul).
+scope: optional
 
 # Folder installation — create class folders from the ontology.
 install folders: true
 folder base: Squad
 folder ontology: squad.ttl
 
-# Initialization prompts
-init_prompts:
-  - agent_name
+# Runtime dependency: requires soul kit
+extends: soul
+
+# No init prompts — squad is a federation layer on top of soul identity.
+init_prompts: []
